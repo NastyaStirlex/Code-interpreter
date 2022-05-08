@@ -4,15 +4,163 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/menu"
     tools:context=".MainActivity">
 
+    <ImageView
+        android:id="@+id/blok1"
+        android:layout_width="327dp"
+        android:layout_height="145dp"
+        android:contentDescription="TODO"
+        app:layout_constraintBottom_toTopOf="@+id/block2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/rectangle_26" />
+
     <TextView
+        android:id="@+id/nameBlock1"
+        android:layout_width="228dp"
+        android:layout_height="41dp"
+        android:gravity="left"
+        android:text="@string/block1_name"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/blok1"
+        app:layout_constraintEnd_toEndOf="@+id/blok1"
+        app:layout_constraintHorizontal_bias="0.151"
+        app:layout_constraintStart_toStartOf="@+id/blok1"
+        app:layout_constraintTop_toTopOf="@+id/blok1"
+        app:layout_constraintVertical_bias="0.23" />
+
+    <EditText
+        android:id="@+id/getNames"
+        android:layout_width="234dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="38dp"
+        android:ems="10"
+        android:hint="@string/block1_editText"
+        android:inputType="textPersonName"
+        android:textColorHint="#455A64"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/blok1"
+        app:layout_constraintEnd_toEndOf="@+id/blok1"
+        app:layout_constraintHorizontal_bias="0.161"
+        app:layout_constraintStart_toStartOf="@+id/blok1"
+        app:layout_constraintTop_toBottomOf="@+id/nameBlock1"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:clickable="true"
+        app:backgroundTint="@color/purple_200"
+        app:layout_constraintBottom_toBottomOf="@+id/blok1"
+        app:layout_constraintEnd_toEndOf="@+id/blok1"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/getNames"
+        app:layout_constraintTop_toTopOf="@+id/blok1"
+        app:layout_constraintVertical_bias="0.73"
+        app:srcCompat="@android:drawable/ic_input_add"
+        tools:ignore="DuplicateClickableBoundsCheck" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:contentDescription="@string/menu_blok1"
+        app:backgroundTint="@color/purple_200"
+        app:layout_constraintBottom_toBottomOf="@+id/blok1"
+        app:layout_constraintEnd_toEndOf="@+id/blok1"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/getNames"
+        app:layout_constraintTop_toTopOf="@+id/blok1"
+        app:layout_constraintVertical_bias="0.73"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+    <ImageView
+        android:id="@+id/block2"
+        android:layout_width="325dp"
+        android:layout_height="144dp"
+        android:layout_marginBottom="308dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.651"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/rectangle_27" />
+
+    <TextView
+        android:id="@+id/nameBlock2"
+        android:layout_width="228dp"
+        android:layout_height="41dp"
+        android:gravity="left"
+        android:text="@string/block2_name"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/block2"
+        app:layout_constraintEnd_toEndOf="@+id/block2"
+        app:layout_constraintHorizontal_bias="0.134"
+        app:layout_constraintStart_toStartOf="@+id/block2"
+        app:layout_constraintTop_toTopOf="@+id/block2"
+        app:layout_constraintVertical_bias="0.213" />
+
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="114dp"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toBottomOf="@+id/block2"
+        app:layout_constraintEnd_toEndOf="@+id/block2"
+        app:layout_constraintHorizontal_bias="0.067"
+        app:layout_constraintStart_toStartOf="@+id/block2"
+        app:layout_constraintTop_toBottomOf="@+id/nameBlock2"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/getMeanings"
+        android:layout_width="121dp"
+        android:layout_height="48dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/block2_editText"
+        android:inputType="textPersonName"
+        android:textColorHint="#455A64"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/block2"
+        app:layout_constraintEnd_toEndOf="@+id/block2"
+        app:layout_constraintHorizontal_bias="0.131"
+        app:layout_constraintStart_toEndOf="@+id/spinner1"
+        app:layout_constraintTop_toBottomOf="@+id/nameBlock2"
+        app:layout_constraintVertical_bias="0.03" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/getMeaning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:backgroundTint="@color/teal_200"
+        app:layout_constraintBottom_toBottomOf="@+id/block2"
+        app:layout_constraintEnd_toEndOf="@+id/block2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/getMeanings"
+        app:layout_constraintTop_toTopOf="@+id/block2"
+        app:layout_constraintVertical_bias="0.715"
+        app:srcCompat="@android:drawable/ic_menu_send" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/menuBlock1"
+        android:layout_width="71dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginBottom="32dp"
+        android:clickable="true"
+        android:contentDescription="@string/menu_blok1"
+        app:backgroundTint="@color/purple_700"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@android:drawable/ic_input_add" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
