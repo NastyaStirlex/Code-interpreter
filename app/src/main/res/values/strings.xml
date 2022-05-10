@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">CodeBlock</string>
-    <string name="block1_name">Привет! Я блок для объявления переменных</string>
-    <string name="block1_editText">Введи названия переменных</string>
-    <string name="block1_bottom">Отправить</string>
-    <string name="menu_blok1">var</string>
-    <string name="block2_name">Тут ты можешь присвоить значение</string>
-    <string name="block2_editText">Введи значение</string>
-    <string name="block2_bottom">Сохранить</string>
-    <string name="menu_blok2">:=</string>
+    <string-array name="menuBlocks">
+        <item>Ввод переменных</item>
+        <item>Присваивание</item>
+        <item>Условие Начало</item>
+        <item>Условие Конец</item>
+        <item>Вывод</item>
+    </string-array>
+
 </resources>
