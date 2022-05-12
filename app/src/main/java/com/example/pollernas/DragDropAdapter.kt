@@ -49,8 +49,8 @@ class DragDropAdapter(dataSet: MutableList<blockModule>) :
         Log.d("DragDropAdapter", "$dataSet")}
 
     fun updateItem(item: blockModule) {
-        list.add(0, item)
-        notifyItemInserted(0)
+        list.add(item)
+        notifyDataSetChanged()
 
         Log.d("MyAdapter", "$list")
     }
