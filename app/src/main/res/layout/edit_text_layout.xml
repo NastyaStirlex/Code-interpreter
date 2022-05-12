@@ -9,4 +9,16 @@
         android:layout_width="match_parent"
         android:layout_height="57dp"
         android:entries="@array/menuBlocks" />
+
+    <EditText
+        android:id="@+id/et_editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="Sample text"
+        android:focusable="true"
+        android:focusedByDefault="true"
+        android:hint="@string/hintForInput"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:text="@string/letterForInput" />
 </LinearLayout>

@@ -2,6 +2,7 @@ package com.example.pollernas
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -11,23 +12,26 @@ import com.ernestoyaquello.dragdropswiperecyclerview.DragDropSwipeRecyclerView
 import com.ernestoyaquello.dragdropswiperecyclerview.listener.OnItemSwipeListener
 import kotlinx.android.synthetic.main.activity_main.*
 
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var dragDropAdapter: DragDropAdapter
-    private var itemsList = mutableListOf<String>()
+    private var itemsList = mutableListOf<blockModule>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        createFakeItems()
+        //  createFakeItems()
         setUpRecycler()
     }
 
-    private fun createFakeItems() {
-        itemsList.add("Ввод переменных")
-        itemsList.add("Присваивание")
-    }
+    // private fun createFakeItems() {
+    //      var newBlock1 = blockModule("Ввод переменных",null)
+    //     var newBlock2 = blockModule("Присваивание",null)
+    //     itemsList.add(newBlock1)
+    //      itemsList.add(newBlock2)
+    // }
 
     private fun setUpRecycler() {
         dragDropAdapter =
@@ -42,11 +46,11 @@ class MainActivity : AppCompatActivity() {
 
         //mList.disableSwipeDirection(DragDropSwipeRecyclerView.ListOrientation.DirectionFlag.RIGHT)
 
-        val onItemSwipeListener = object : OnItemSwipeListener<String> {
+        val onItemSwipeListener = object : OnItemSwipeListener<blockModule> {
             override fun onItemSwiped(
                 position: Int,
                 direction: OnItemSwipeListener.SwipeDirection,
-                item: String
+                item: blockModule
             ): Boolean {
                 Log.d("Main", "Position = $position, Direction = $direction, Item = $item")
 
@@ -55,7 +59,7 @@ class MainActivity : AppCompatActivity() {
                     OnItemSwipeListener.SwipeDirection.RIGHT_TO_LEFT -> {
                         Toast.makeText(
                             applicationContext,
-                            "Блок $item удален",
+                            "Блок удален",
                             Toast.LENGTH_SHORT
                         ).show()
                         //todo: add deleted code
@@ -64,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                     OnItemSwipeListener.SwipeDirection.LEFT_TO_RIGHT -> {
                         Toast.makeText(
                             applicationContext,
-                            "Блок $item архивирован",
+                            "Блок архивирован",
                             Toast.LENGTH_SHORT
                         ).show()
                         //todo: add archived code here
@@ -78,6 +82,7 @@ class MainActivity : AppCompatActivity() {
 
         // button
         fabAddItem()
+        startCode()
     }
 
     private fun fabAddItem() {
@@ -87,12 +92,13 @@ class MainActivity : AppCompatActivity() {
             val inflater = layoutInflater
             val dialogLayout = inflater.inflate(R.layout.edit_text_layout, null)
             val spinner = dialogLayout.findViewById<Spinner>(R.id.spinner)
+            val editText = dialogLayout.findViewById<EditText>(R.id.et_editText).text
 
             with(builder) {
                 setTitle("Выбери нужный блок")
                 setPositiveButton("OK") { dialog, which ->
-                    dragDropAdapter.updateItem(spinner.selectedItem.toString())
-
+                    var newBlock = blockModule(spinner.selectedItem.toString(), editText.toString())
+                    dragDropAdapter.updateItem(newBlock)
 
                     Toast.makeText(
                         applicationContext,
@@ -105,6 +111,15 @@ class MainActivity : AppCompatActivity() {
                 }
                 setView(dialogLayout)
                 show()
+            }
+        }
+    }
+
+    private fun startCode() {
+        buttonStart.setOnClickListener {
+            itemsList = dragDropAdapter.getArray()
+            for (i in 0..itemsList.size-1) {
+                Log.i(itemsList[i].name,itemsList[i].editTextValue)
             }
         }
     }
