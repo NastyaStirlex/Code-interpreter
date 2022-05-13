@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android/AndroidStudioProjects/PolLerNas/app/src/main/res/layout/activity_main.xml" value="0.12708333333333333" />
+        <entry key="..\:/Android/AndroidStudioProjects/PolLerNas/app/src/main/res/layout/edit_text_layout.xml" value="0.259375" />
+        <entry key="..\:/Android/AndroidStudioProjects/PolLerNas/app/src/main/res/layout/list_item_layout.xml" value="0.24682971014492755" />
         <entry key="..\:/PolLerNas/app/src/main/res/layout/activity_main.xml" value="0.14130434782608695" />
         <entry key="..\:/PolLerNas/app/src/main/res/layout/edit_text_layout.xml" value="0.14130434782608695" />
         <entry key="..\:/PolLerNas/app/src/main/res/layout/list_item_layout.xml" value="0.14130434782608695" />

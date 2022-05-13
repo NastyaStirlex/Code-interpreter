@@ -2,12 +2,5 @@
     <string name="app_name">CodeBlock</string>
     <string name="hintForInput">Введи код</string>
     <string name="letterForInput">a</string>
-    <string-array name="menuBlocks">
-        <item>Ввод переменных</item>
-        <item>Присваивание</item>
-        <item>Условие Начало</item>
-        <item>Условие Конец</item>
-        <item>Вывод</item>
-    </string-array>
 
 </resources>

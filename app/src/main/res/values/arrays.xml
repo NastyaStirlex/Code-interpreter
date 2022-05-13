@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="menuBlocks">
+        <item>Объявление переменных</item>
+        <item>Присваивание</item>
+        <item>Условие Начало</item>
+        <item>Условие Конец</item>
+        <item>Вывод переменных</item>
+    </string-array>
+</resources>

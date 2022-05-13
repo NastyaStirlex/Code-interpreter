@@ -52,7 +52,7 @@ class DragDropAdapter(dataSet: MutableList<blockModule>) :
         list.add(item)
         notifyDataSetChanged()
 
-        Log.d("MyAdapter", "$list")
+        Log.d("MyAdapter", "${list}")
     }
-    fun getArray() = list
+    fun getArray() : MutableList<blockModule> {return list}
 }

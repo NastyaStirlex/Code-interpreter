@@ -12,11 +12,12 @@ import com.ernestoyaquello.dragdropswiperecyclerview.DragDropSwipeRecyclerView
 import com.ernestoyaquello.dragdropswiperecyclerview.listener.OnItemSwipeListener
 import kotlinx.android.synthetic.main.activity_main.*
 
-
 class MainActivity : AppCompatActivity() {
 
+    val arrayTypes = resources.getStringArray(R.array.menuBlocks)
     private lateinit var dragDropAdapter: DragDropAdapter
     private var itemsList = mutableListOf<blockModule>()
+    var variablesMap = mutableMapOf<String, Int>() // словарь переменных и их значений
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,7 +98,8 @@ class MainActivity : AppCompatActivity() {
             with(builder) {
                 setTitle("Выбери нужный блок")
                 setPositiveButton("OK") { dialog, which ->
-                    var newBlock = blockModule(spinner.selectedItem.toString(), editText.toString())
+                    if()
+                    var newBlock = blockModule(spinner.selectedItem.toString(), editText.toString(), variablesMap)
                     dragDropAdapter.updateItem(newBlock)
 
                     Toast.makeText(
@@ -119,7 +121,14 @@ class MainActivity : AppCompatActivity() {
         buttonStart.setOnClickListener {
             itemsList = dragDropAdapter.getArray()
             for (i in 0..itemsList.size-1) {
-                Log.i(itemsList[i].name,itemsList[i].editTextValue)
+                Log.i("List", "${itemsList[i].name} : ${itemsList[i].editTextValue}")
+                when(itemsList[i].name) {
+                    arrayTypes[0] -> {blockModule(itemsList[i].name, itemsList[i].editTextValue, variablesMap).declaration(itemsList[i].editTextValue)} // объявление
+                    arrayTypes[1] -> {blockModule(itemsList[i].name, itemsList[i].editTextValue, variablesMap).assingment(itemsList[i].editTextValue)} // присваивание
+                    arrayTypes[2] -> {} // старт условия
+                    arrayTypes[3] -> {} // конец условия
+                    arrayTypes[4] -> {} // вывод
+                }
             }
         }
     }
