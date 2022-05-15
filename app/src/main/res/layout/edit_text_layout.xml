@@ -19,5 +19,6 @@
         android:focusedByDefault="true"
         android:hint="@string/hintForInput"
         android:inputType="textPersonName"
-        android:minHeight="48dp" />
+        android:minHeight="48dp"
+        android:text="as" />
 </LinearLayout>

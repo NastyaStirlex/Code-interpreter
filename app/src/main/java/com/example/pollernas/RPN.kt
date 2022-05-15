@@ -3,6 +3,14 @@ package com.example.pollernas
 import java.util.*
 
 class RPN {
+    private fun isInMapVar(name: String, variablesMap: MutableMap<String, Int>): Boolean {
+        if(name in variablesMap.keys) {
+            return true
+        } else {
+            return false
+        }
+    }
+
     fun preparingExpression(expression: String) : String {
         var preparedExpression = ""
         for(token in expression.indices) {
@@ -63,7 +71,7 @@ class RPN {
         return current
     }
 
-    fun rpnToAnswer(rpn: String, variables: MutableMap<String, Int>) : Int {
+    fun rpnToAnswer(rpn: String, variablesMap: MutableMap<String, Int>) : Int {
         var operand: String // для чисел, состоящих из более чем 1 символа / для переменных
         var stack = Stack<Int>()
         var token = 0
@@ -94,9 +102,13 @@ class RPN {
                     if(token == rpn.length)
                         break
                 }
-                // проверять есть в словаре переменная или нет
-                val valueVar = variables[operand]
-                stack.push(valueVar)
+                // проверять, есть в словаре переменная или нет
+                if(isInMapVar(operand, variablesMap)) {
+                    val valueVar = variablesMap[operand]
+                    stack.push(valueVar)
+                } else {
+                    return -1
+                }
                 operand = String()
             }
 
