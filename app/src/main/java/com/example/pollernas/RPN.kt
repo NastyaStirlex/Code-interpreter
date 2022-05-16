@@ -4,11 +4,7 @@ import java.util.*
 
 class RPN {
     private fun isInMapVar(name: String, variablesMap: MutableMap<String, Int>): Boolean {
-        if(name in variablesMap.keys) {
-            return true
-        } else {
-            return false
-        }
+        return name in variablesMap.keys
     }
 
     fun preparingExpression(expression: String) : String {
@@ -94,7 +90,7 @@ class RPN {
                 operand = String()
             }
 
-            if(getPriority(rpn[token]) == -2) { // если текущий символ - буква
+            else if(getPriority(rpn[token]) == -2) { // если текущий символ - буква
                 operand = String()
                 while(rpn[token] != ' ' && getPriority(rpn[token]) == -2) {
                     operand += rpn[token]
@@ -112,7 +108,7 @@ class RPN {
                 operand = String()
             }
 
-            if(getPriority(rpn[token]) > 1) { // если текущий символ - оператор
+            else if(getPriority(rpn[token]) > 1) { // если текущий символ - оператор
                 val a = stack.pop()
                 val b = stack.pop()
                 if(rpn[token] == '+')

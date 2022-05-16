@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.output_text_layout.view.*
 class MainActivity : AppCompatActivity() {
 
     private lateinit var dragDropAdapter: DragDropAdapter
-    private var itemsList = mutableListOf<blockModule>()
+    private var itemsList = mutableListOf<BlockModule>()
     var variablesMap = mutableMapOf<String, Int>() // словарь переменных и их значений
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,15 +28,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     // private fun createFakeItems() {
-    //      var newBlock1 = blockModule("Ввод переменных",null)
-    //     var newBlock2 = blockModule("Присваивание",null)
+    //      var newBlock1 = BlockModule("Ввод переменных",null)
+    //     var newBlock2 = BlockModule("Присваивание",null)
     //     itemsList.add(newBlock1)
     //      itemsList.add(newBlock2)
     // }
 
 
-
-    private fun outPut() {
+    private fun outPut(str: String) {
         val builder1 = AlertDialog.Builder(this)
         val inflater1 = layoutInflater
         val dialogLayout1 = inflater1.inflate(R.layout.output_text_layout, null)
@@ -45,7 +44,7 @@ class MainActivity : AppCompatActivity() {
             setTitle("Тут будет прикольная фраза")
             if (true){ // тут проверка всё ли корректно
                 //Тут код для вывода
-                dialogLayout1.textView.text = "Готово!"
+                dialogLayout1.textView.text = str
             }
             else{
                 dialogLayout1.textView.text = "Ошибка! Что-то пошло не так..."
@@ -55,22 +54,33 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun startCode() {
+    private fun startCode() { // выполнение алгоритма
         buttonStart.setOnClickListener {
-            outPut()
-//            itemsList = dragDropAdapter.getArray()
-//            for (i in 0..itemsList.size-1) {
-//                Log.i("List", "${itemsList[i].name} : ${itemsList[i].editTextValue}")
-//                //when(itemsList[i].name) {
-//                    //"Объявление переменных" -> {blockModule(itemsList[i].name, itemsList[i].editTextValue, variablesMap).declaration(itemsList[i].editTextValue)} // объявление
-//                    //"Присваивание" -> {blockModule(itemsList[i].name, itemsList[i].editTextValue, variablesMap).assingment(itemsList[i].editTextValue)} // присваивание
-////                    arrayTypes[2] -> {} // старт условия
-////                    arrayTypes[3] -> {} // конец условия
-//                    //arrayTypes[4] -> {outPut()} // вывод, передаю строку,  которую надо вывести
-//                //}
-//            }
+            itemsList = dragDropAdapter.getArray()
+
+            for (i in 0..itemsList.size - 1) {
+                val nameBlock = itemsList[i].name
+                val etValue = itemsList[i].editTextValue
+                Log.i("List", "$nameBlock : $etValue")
+                when(nameBlock) {
+                    //"Объявление переменных" -> {}
+                    "Присваивание" -> {
+                        val result = BlocksFuns(variablesMap).assingment(etValue)
+                        Log.i("Result", "$result")
+                        if (result.first != -1) {
+                            Log.i("Assingment","Переменной ${result.second} присвоено значение ${result.first}")
+                            //Toast.makeText(applicationContext, "Переменной ${result.second} присвоено значение $result.first", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    "Условие Начало" -> {} // старт условия
+                    "Условие Конец" -> {} // конец условия
+                    "Вывод переменных" -> {outPut(BlocksFuns(variablesMap).output(etValue))} // вывод, передаю строку,  которую надо вывести
+                }
+            }
         }
     }
+
 
     private fun setUpRecycler() {
         dragDropAdapter =
@@ -85,11 +95,11 @@ class MainActivity : AppCompatActivity() {
 
         //mList.disableSwipeDirection(DragDropSwipeRecyclerView.ListOrientation.DirectionFlag.RIGHT)
 
-        val onItemSwipeListener = object : OnItemSwipeListener<blockModule> {
+        val onItemSwipeListener = object : OnItemSwipeListener<BlockModule> {
             override fun onItemSwiped(
                 position: Int,
                 direction: OnItemSwipeListener.SwipeDirection,
-                item: blockModule
+                item: BlockModule
             ): Boolean {
                 Log.d("Main", "Position = $position, Direction = $direction, Item = $item")
 
@@ -140,6 +150,7 @@ class MainActivity : AppCompatActivity() {
                 setTitle("Выбери нужный блок")
 
                 setPositiveButton("OK") { dialog, which ->
+                    Log.i("Button", "Pressed OK")
                     val editText =
                         dialogLayout.findViewById<EditText>(R.id.et_editText).text.toString() // строка - код блока
                     val nameBlock = spinner.selectedItem.toString() // тип блока
@@ -148,7 +159,7 @@ class MainActivity : AppCompatActivity() {
 
 
                     if (nameBlock == "Объявление переменных") {
-                        var newBlock = blockModule(nameBlock, editText, variablesMap)
+                        var newBlock = BlockModule(nameBlock, editText)
 
                         if (newBlock.isCorrect(editText)) { // одна переменная
                             if (editText in variablesMap.keys) {
@@ -194,16 +205,18 @@ class MainActivity : AppCompatActivity() {
                             }
                             if (itsOkay) {
                                 dragDropAdapter.updateItem(newBlock)
+                                newVariables.forEach{
+                                    variablesMap[it] = 0
+                                }
 
-                                Toast.makeText(
-                                    applicationContext,
-                                    "Блок успешно добавлен! Объявлены переменные: ${newVariables.joinToString(",")}",
+                                Toast.makeText(applicationContext,
+                                    "Блок успешно добавлен! Объявлены переменные: ${newVariables.joinToString(", ")}",
                                     Toast.LENGTH_LONG
                                 ).show()
                             } else if(!itsOkay) {
                                 Toast.makeText(
                                     applicationContext,
-                                    "Блок не может быть добавлен.",
+                                    "Блок не может быть добавлен:(",
                                     Toast.LENGTH_SHORT
                                 ).show()
                                 if(earlyDeclaratedVar.isNotEmpty()) {
@@ -216,22 +229,95 @@ class MainActivity : AppCompatActivity() {
                                 if(incorrectVariables.isNotEmpty()) {
                                     Toast.makeText(
                                         applicationContext,
-                                        "${"Некорректные имена переменных: " + incorrectVariables.joinToString(",")}",
+                                        "${"Некорректные имена переменных: " + incorrectVariables.joinToString(", ")}",
                                         Toast.LENGTH_LONG
                                     ).show()
                                 }
                             }
+                        } else {
+                            Toast.makeText(applicationContext, "Некорректная строка", Toast.LENGTH_SHORT).show()
                         }
-                        else {
-                            Toast.makeText(
-                                applicationContext,
-                                "Некорректная строка",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                    } else if(nameBlock == "Присваивание") {
+                        var newBlock = BlockModule(nameBlock, editText)
+                        // корректно ли выражение
+                        if (BlockModule(nameBlock, editText).isCorrectAssingment(editText)) {
+                            dragDropAdapter.updateItem(newBlock)
+                            if (editText.substringBefore('=') !in variablesMap.keys) {
+                                val result = BlocksFuns(variablesMap).assingment(editText)
+                                Log.i("Result", "$result")
+                                if (result.first != -1) {
+                                    Log.i("Assingment","Переменной ${result.second} присвоено значение ${result.first}")
+                                    variablesMap[result.second] = result.first
+                                }
+                            }
 
+
+                            Toast.makeText(applicationContext, "Блок успешно добавлен!", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(applicationContext, "Некорректное выражение!", Toast.LENGTH_SHORT).show()
+                        }
+                    } else if(nameBlock == "Условие Начало") {
+                        if(true) { // дописать
+
+                        } else {
+                            Toast.makeText(applicationContext, "Некорректное выражение!", Toast.LENGTH_SHORT).show()
+                        }
+                    } else if(nameBlock == "Вывод переменных") {
+                        var newBlock = BlockModule(nameBlock, editText)
+
+                        if (newBlock.isCorrect(editText)) { // одна переменная
+                            if (editText !in variablesMap.keys) {
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Такой переменной нет!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                dragDropAdapter.updateItem(newBlock)
+                                Toast.makeText(applicationContext, "Блок успешно добавлен!", Toast.LENGTH_SHORT).show()
+                            }
+                        } else if(newBlock.isSequence(editText)) { // несколько переменных ч/з запятую)
+                            val listOfVar = editText.replace("\\s".toRegex(), "").split(",")
+                            var notDeclaratedVar: MutableList<String> = mutableListOf()
+                            var incorrectVar: MutableList<String> = mutableListOf()
+                            var itsOkay = true
+
+                            for (name in listOfVar) {
+                                if (newBlock.isCorrect(name)) {
+                                    if (name !in variablesMap.keys) {
+                                        notDeclaratedVar.add(name)
+                                        itsOkay = false
+                                    }
+                                } else {
+                                    incorrectVar.add(name)
+                                    itsOkay = false
+                                }
+                            }
+                            if(itsOkay) {
+                                dragDropAdapter.updateItem(newBlock)
+                                Toast.makeText(applicationContext, "Блок успешно добавлен!", Toast.LENGTH_SHORT).show()
+                            } else if(!itsOkay) {
+                                Toast.makeText(applicationContext,"Блок не может быть добавлен.", Toast.LENGTH_SHORT).show()
+                                if(notDeclaratedVar.isNotEmpty()) {
+                                    Toast.makeText(
+                                        applicationContext,
+                                        "Не объявлены такие переменные: " + notDeclaratedVar.joinToString(", "),
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                                if(incorrectVar.isNotEmpty()) {
+                                    Toast.makeText(
+                                        applicationContext,
+                                        "Некорректные имена переменных: " + incorrectVar.joinToString(", "),
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                            }
+                        } else {
+                            Toast.makeText(applicationContext, "Некорректная строка", Toast.LENGTH_SHORT).show()
                         }
                     } else {
-                        var newBlock = blockModule(nameBlock, editText, variablesMap)
+                        var newBlock = BlockModule(nameBlock, editText)
                         dragDropAdapter.updateItem(newBlock)
 
                         Toast.makeText(

@@ -7,10 +7,10 @@ import android.widget.TextView
 import android.widget.Toast
 import com.ernestoyaquello.dragdropswiperecyclerview.DragDropSwipeAdapter
 
-class DragDropAdapter(dataSet: MutableList<blockModule>) :
-    DragDropSwipeAdapter<blockModule, DragDropAdapter.ViewHolder>(dataSet)  {
+class DragDropAdapter(dataSet: MutableList<BlockModule>) :
+    DragDropSwipeAdapter<BlockModule, DragDropAdapter.ViewHolder>(dataSet)  {
 
-    private var list: MutableList<blockModule> = this.dataSet as MutableList<blockModule>
+    private var list: MutableList<BlockModule> = this.dataSet as MutableList<BlockModule>
 
     inner class ViewHolder(itemView: View) : DragDropSwipeAdapter.ViewHolder(itemView) {
         val itemName: TextView = itemView.findViewById(R.id.item_text)
@@ -29,14 +29,14 @@ class DragDropAdapter(dataSet: MutableList<blockModule>) :
 
     override fun getViewHolder(itemView: View) = ViewHolder(itemView)
 
-    override fun onBindViewHolder(item: blockModule, viewHolder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(item: BlockModule, viewHolder: ViewHolder, position: Int) {
         // Here we update the contents of the view holder's views to reflect the item's data
         viewHolder.itemName.text = dataSet[position].name
         viewHolder.itemText.text = dataSet[position].editTextValue
     }
 
     override fun getViewToTouchToStartDraggingItem(
-        item: blockModule,
+        item: BlockModule,
         viewHolder: ViewHolder,
         position: Int
     ): View? {
@@ -44,15 +44,15 @@ class DragDropAdapter(dataSet: MutableList<blockModule>) :
         return viewHolder.dragIcon
     }
 
-    override fun onDragFinished(item: blockModule, viewHolder: ViewHolder) {
+    override fun onDragFinished(item: BlockModule, viewHolder: ViewHolder) {
         super.onDragFinished(item, viewHolder)
         Log.d("DragDropAdapter", "$dataSet")}
 
-    fun updateItem(item: blockModule) {
+    fun updateItem(item: BlockModule) {
         list.add(item)
         notifyDataSetChanged()
 
         Log.d("MyAdapter", "${list}")
     }
-    fun getArray() : MutableList<blockModule> {return list}
+    fun getArray() : MutableList<BlockModule> {return list}
 }
