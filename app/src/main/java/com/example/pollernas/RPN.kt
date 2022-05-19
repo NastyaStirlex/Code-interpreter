@@ -1,5 +1,6 @@
 package com.example.pollernas
 
+import android.util.Log
 import java.util.*
 
 class RPN {
@@ -27,7 +28,7 @@ class RPN {
             '+', '-' -> 2
             '(' -> 1
             ')' -> -1
-            in 'a'..'z', in 'A' ..'Z', '_' -> -2 // переменные
+            in 'a'..'z', in 'A' ..'Z', in 'А'..'Я', in 'а'..'я', '_' -> -2 // переменные
             else -> 0 // цифры
         }
     }
@@ -71,6 +72,7 @@ class RPN {
         var operand: String // для чисел, состоящих из более чем 1 символа / для переменных
         var stack = Stack<Int>()
         var token = 0
+
         while(token < rpn.length) {
 
             if(rpn[token] == ' ') {
