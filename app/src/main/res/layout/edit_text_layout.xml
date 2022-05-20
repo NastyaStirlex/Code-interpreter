@@ -4,11 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Spinner
-        android:id="@+id/spinner"
+
+    <TextView
+        android:id="@+id/BlockName"
         android:layout_width="match_parent"
         android:layout_height="57dp"
-        android:entries="@array/menuBlocks" />
+        android:gravity="center" />
 
     <EditText
         android:id="@+id/et_editText"

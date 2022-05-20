@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,33 +7,60 @@
     android:background="@drawable/menu">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_add"
+        android:id="@+id/burger"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:src="@drawable/ic_baseline_add_24"
-        app:rippleColor="#F4F4F4" />
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="@color/burger"
+        android:clickable="true"
+        android:contentDescription="@string/app_name"
+        android:focusable="true"
+        android:src="@drawable/burger"
+        android:tint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/frameLayout"
+        tools:ignore="DuplicateSpeakableTextCheck" />
 
     <Button
-        android:id="@+id/buttonStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/whileEnd"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="160dp"
-        android:layout_marginEnd="160dp"
-        android:layout_marginBottom="16dp"
-        android:text="Старт!" />
+        android:layout_marginEnd="16dp"
+        android:text="while end"
+        android:clickable="true"
+        android:focusable="true"
+        android:textColor="@color/text"
+        android:textSize="10sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@+id/elseEnd"
+        app:layout_constraintTop_toTopOf="@+id/elseEnd" />
+
+    <Button
+        android:id="@+id/elsee"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="37dp"
+        android:backgroundTint="@color/ifelse"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="else"
+        android:textColor="@color/text"
+        android:textSize="10sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/burger"
+        app:layout_constraintEnd_toEndOf="@+id/burger"
+        tools:visibility="visible" />
 
     <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:visibility="gone">
 
         <com.ernestoyaquello.dragdropswiperecyclerview.DragDropSwipeRecyclerView
             android:id="@+id/list"
@@ -48,4 +75,184 @@
             tools:ignore="MissingClass" />
 
     </FrameLayout>
-</RelativeLayout>
+
+
+    <Button
+        android:id="@+id/outputt"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/arifm"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/output"
+        android:textColor="@color/text"
+        android:textSize="10sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@+id/arr"
+        app:layout_constraintTop_toTopOf="@+id/arr"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/arr"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/arr"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="arr"
+        android:textColor="@color/text"
+        android:textSize="12sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@+id/play"
+        app:layout_constraintTop_toTopOf="@+id/play"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/play"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/play"
+        android:clickable="true"
+        android:contentDescription="@string/app_name"
+        android:focusable="true"
+        android:text="RUN"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@+id/burger"
+        app:layout_constraintTop_toTopOf="@+id/burger"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/run"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="7dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/play"
+        app:layout_constraintStart_toStartOf="@+id/play"
+        app:srcCompat="@drawable/run"
+        tools:visibility="visible" />
+
+
+    <Button
+        android:id="@+id/whilee"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/whilee"
+        android:clickable="true"
+        android:contentDescription="@string/app_name"
+        android:focusable="true"
+        android:text="while"
+        android:textColor="@color/text"
+        android:textSize="8sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@+id/outputt"
+        app:layout_constraintTop_toTopOf="@+id/outputt"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/varr"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/var"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/var"
+        android:textColor="@color/text"
+        android:textSize="12sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@+id/assign"
+        app:layout_constraintTop_toTopOf="@+id/assign"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/assign"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/assign"
+        android:clickable="true"
+        android:contentDescription="@string/app_name"
+        android:focusable="true"
+        android:text=":="
+        android:textColor="@color/text"
+        android:textSize="20sp"
+        android:tint="@color/white"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@+id/iff"
+        app:layout_constraintTop_toTopOf="@+id/iff"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/iff"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/iff"
+        android:clickable="true"
+        android:contentDescription="@string/app_name"
+        android:focusable="true"
+        android:text="if"
+        android:textColor="@color/text"
+        android:textSize="15sp"
+        android:tint="@color/white"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@+id/elsee"
+        app:layout_constraintTop_toTopOf="@+id/elsee"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/Letstart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginBottom="26dp"
+        android:text="Let's start   ---->"
+        android:textColor="#F4D44E"
+        android:textSize="25sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/elseEnd"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="16dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:text="else end"
+        android:clickable="true"
+        android:focusable="true"
+        android:textColor="@color/text"
+        android:textSize="10sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@+id/ifEnd"
+        app:layout_constraintTop_toTopOf="@+id/ifEnd" />
+
+    <Button
+        android:id="@+id/ifEnd"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:text="if end"
+        android:clickable="true"
+        android:focusable="true"
+        android:textColor="@color/text"
+        android:textSize="10sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/elsee"
+        app:layout_constraintEnd_toEndOf="@+id/elsee" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

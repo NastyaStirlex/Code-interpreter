@@ -2,5 +2,8 @@
     <string name="app_name">CodeBlock</string>
     <string name="hintForInput">Введи код</string>
     <string name="letterForInput">a</string>
+    <string name="var">var</string>
+    <string name="input">input</string>
+    <string name="output">output</string>
 
 </resources>
