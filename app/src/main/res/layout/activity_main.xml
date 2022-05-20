@@ -10,8 +10,8 @@
         android:id="@+id/burger"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="27dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
         android:backgroundTint="@color/burger"
         android:clickable="true"
         android:contentDescription="@string/app_name"
@@ -19,8 +19,24 @@
         android:src="@drawable/burger"
         android:tint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/frameLayout"
         tools:ignore="DuplicateSpeakableTextCheck" />
+
+    <Button
+        android:id="@+id/whileEnd"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="16dp"
+        android:text="while end"
+        android:clickable="true"
+        android:focusable="true"
+        android:textColor="@color/text"
+        android:textSize="10sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@+id/elseEnd"
+        app:layout_constraintTop_toTopOf="@+id/elseEnd" />
 
     <Button
         android:id="@+id/elsee"
@@ -28,24 +44,22 @@
         android:layout_height="60dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:backgroundTint="@color/elsee"
+        android:layout_marginEnd="37dp"
+        android:backgroundTint="@color/ifelse"
         android:clickable="true"
         android:focusable="true"
         android:text="else"
         android:textColor="@color/text"
         android:textSize="10sp"
         android:visibility="invisible"
-        app:layout_constraintEnd_toStartOf="@+id/elseEnd"
-        app:layout_constraintTop_toTopOf="@+id/elseEnd"
+        app:layout_constraintBottom_toTopOf="@+id/burger"
+        app:layout_constraintEnd_toEndOf="@+id/burger"
         tools:visibility="visible" />
-
 
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"
         tools:visibility="gone">
 
         <com.ernestoyaquello.dragdropswiperecyclerview.DragDropSwipeRecyclerView
@@ -62,25 +76,28 @@
 
     </FrameLayout>
 
+
     <Button
         android:id="@+id/outputt"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:backgroundTint="@color/output"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/arifm"
         android:clickable="true"
         android:focusable="true"
         android:text="@string/output"
         android:textColor="@color/text"
         android:textSize="10sp"
         android:visibility="invisible"
-        app:layout_constraintEnd_toStartOf="@+id/play"
-        app:layout_constraintTop_toTopOf="@+id/play"
+        app:layout_constraintEnd_toStartOf="@+id/arr"
+        app:layout_constraintTop_toTopOf="@+id/arr"
         tools:visibility="visible" />
 
     <Button
         android:id="@+id/arr"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:layout_marginEnd="16dp"
         android:backgroundTint="@color/arr"
         android:clickable="true"
         android:focusable="true"
@@ -88,16 +105,18 @@
         android:textColor="@color/text"
         android:textSize="12sp"
         android:visibility="invisible"
-        app:layout_constraintEnd_toStartOf="@+id/outputt"
-        app:layout_constraintTop_toTopOf="@+id/outputt"
+        app:layout_constraintEnd_toStartOf="@+id/play"
+        app:layout_constraintTop_toTopOf="@+id/play"
         tools:visibility="visible" />
 
     <Button
         android:id="@+id/play"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:backgroundTint="@color/run"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/play"
         android:clickable="true"
+        android:contentDescription="@string/app_name"
         android:focusable="true"
         android:text="RUN"
         android:textColor="@color/white"
@@ -107,25 +126,41 @@
         app:layout_constraintTop_toTopOf="@+id/burger"
         tools:visibility="visible" />
 
+    <ImageView
+        android:id="@+id/run"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="7dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/play"
+        app:layout_constraintStart_toStartOf="@+id/play"
+        app:srcCompat="@drawable/run"
+        tools:visibility="visible" />
+
+
     <Button
         android:id="@+id/whilee"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:layout_marginEnd="16dp"
         android:backgroundTint="@color/whilee"
         android:clickable="true"
+        android:contentDescription="@string/app_name"
         android:focusable="true"
         android:text="while"
         android:textColor="@color/text"
         android:textSize="8sp"
         android:visibility="invisible"
-        app:layout_constraintEnd_toStartOf="@+id/whileEnd"
-        app:layout_constraintTop_toTopOf="@+id/whileEnd"
+        app:layout_constraintEnd_toStartOf="@+id/outputt"
+        app:layout_constraintTop_toTopOf="@+id/outputt"
         tools:visibility="visible" />
 
     <Button
         android:id="@+id/varr"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:layout_marginEnd="16dp"
         android:backgroundTint="@color/var"
         android:clickable="true"
         android:focusable="true"
@@ -141,22 +176,25 @@
         android:id="@+id/assign"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:layout_marginEnd="16dp"
         android:backgroundTint="@color/assign"
         android:clickable="true"
+        android:contentDescription="@string/app_name"
         android:focusable="true"
         android:text=":="
         android:textColor="@color/text"
         android:textSize="20sp"
         android:tint="@color/white"
         android:visibility="invisible"
-        app:layout_constraintEnd_toStartOf="@+id/arr"
-        app:layout_constraintTop_toTopOf="@+id/arr"
+        app:layout_constraintEnd_toStartOf="@+id/iff"
+        app:layout_constraintTop_toTopOf="@+id/iff"
         tools:visibility="visible" />
 
     <Button
         android:id="@+id/iff"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:layout_marginEnd="16dp"
         android:backgroundTint="@color/iff"
         android:clickable="true"
         android:contentDescription="@string/app_name"
@@ -166,8 +204,8 @@
         android:textSize="15sp"
         android:tint="@color/white"
         android:visibility="invisible"
-        app:layout_constraintEnd_toStartOf="@+id/ifEnd"
-        app:layout_constraintTop_toTopOf="@+id/ifEnd"
+        app:layout_constraintEnd_toStartOf="@+id/elsee"
+        app:layout_constraintTop_toTopOf="@+id/elsee"
         tools:visibility="visible" />
 
     <TextView
@@ -182,70 +220,39 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:visibility="invisible" />
+        tools:visibility="visible" />
 
     <Button
         android:id="@+id/elseEnd"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:layout_marginEnd="16dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:backgroundTint="@color/elseendd"
+        android:text="else end"
         android:clickable="true"
         android:focusable="true"
-        android:text="else end"
         android:textColor="@color/text"
         android:textSize="10sp"
         android:visibility="invisible"
-        app:layout_constraintEnd_toStartOf="@+id/whilee"
-        app:layout_constraintTop_toTopOf="@+id/whilee"
-        tools:visibility="visible" />
-
-    <Button
-        android:id="@+id/whileEnd"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="-5dp"
-        android:layout_marginBottom="-12dp"
-        android:backgroundTint="@color/whilend"
-        android:clickable="true"
-        android:focusable="true"
-        android:text="while end"
-        android:textColor="@color/text"
-        android:textSize="8sp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/burger"
-        app:layout_constraintEnd_toEndOf="@+id/burger"
-        tools:visibility="visible" />
+        app:layout_constraintEnd_toStartOf="@+id/ifEnd"
+        app:layout_constraintTop_toTopOf="@+id/ifEnd" />
 
     <Button
         android:id="@+id/ifEnd"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:layout_marginEnd="40dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:backgroundTint="@color/ifelsee"
+        android:text="if end"
         android:clickable="true"
         android:focusable="true"
-        android:text="if end"
         android:textColor="@color/text"
         android:textSize="10sp"
         android:visibility="invisible"
-        app:layout_constraintEnd_toStartOf="@+id/elsee"
-        app:layout_constraintTop_toTopOf="@+id/elsee"
-        tools:visibility="visible" />
-
-    <ImageView
-        android:id="@+id/blockundermenu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="607dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/rectangleblock" />
+        app:layout_constraintBottom_toTopOf="@+id/elsee"
+        app:layout_constraintEnd_toEndOf="@+id/elsee" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

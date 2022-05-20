@@ -9,18 +9,14 @@
     <color name="grey">#394445</color>
     <color name="back">#BBDFE3</color>
     <color name="burger">#1829C1</color>
-    <color name="iff">#F97CE5</color>
-    <color name="ifelsee">#F97CA9</color>
-    <color name="elsee">#E85477</color>
-    <color name="elseendd">#FF8F62</color>
-    <color name="whilee">#FAB59F</color>
-    <color name="whilend">#F8DB76</color>
-    <color name="var">#E5F876</color>
-    <color name="assign">#51E8BA</color>
+    <color name="var">#F97CE5</color>
+    <color name="assign">#E85477</color>
+    <color name="iff">#FF8F62</color>
+    <color name="ifelse">#FAB59F</color>
+    <color name="whilee">#E5F876</color>
+    <color name="arifm">#51E8BA</color>
     <color name="arr">#6FFAE1</color>
-    <color name="output">#18C1C1</color>
-    <color name="run">#51CDE8</color>
-    <color name="play">#5172E8</color>
+    <color name="play">#18C1C1</color>
     <color name="text">#508FF7</color>
     <color name="white">#DCECF5</color>
 </resources>
