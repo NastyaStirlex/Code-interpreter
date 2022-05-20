@@ -18,22 +18,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dragDropAdapter: DragDropAdapter
     private var itemsList = mutableListOf<BlockModule>()
     var variablesMap = mutableMapOf<String, Int>() // словарь переменных и их значений
+    var variablesAddAssingment = mutableListOf<String>() // переменные, добавленные присваиванием без объявления
+    var arraysMap = mutableMapOf<String, List<String>>() // хранение массивов
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //  createFakeItems()
         setUpRecycler()
     }
-
-    // private fun createFakeItems() {
-    //      var newBlock1 = BlockModule("Ввод переменных",null)
-    //     var newBlock2 = BlockModule("Присваивание",null)
-    //     itemsList.add(newBlock1)
-    //      itemsList.add(newBlock2)
-    // }
-
 
     private fun outPut(str: String) {
         val builder1 = AlertDialog.Builder(this)
@@ -41,12 +34,12 @@ class MainActivity : AppCompatActivity() {
         val dialogLayout1 = inflater1.inflate(R.layout.output_text_layout, null)
 
         with(builder1) {
-            setTitle("Тут будет прикольная фраза")
-            if (true){ // тут проверка всё ли корректно
+            setTitle("Вывод переменных")
+            if (true) { // тут проверка всё ли корректно
                 //Тут код для вывода
                 dialogLayout1.textView.text = str
             }
-            else{
+            else {
                 dialogLayout1.textView.text = "Ошибка! Что-то пошло не так..."
             }
             setView(dialogLayout1)
@@ -57,25 +50,255 @@ class MainActivity : AppCompatActivity() {
     private fun startCode() { // выполнение алгоритма
         buttonStart.setOnClickListener {
             itemsList = dragDropAdapter.getArray()
+            var i = 0
 
-            for (i in 0..itemsList.size - 1) {
+            while(i != itemsList.size) {
                 val nameBlock = itemsList[i].name
-                val etValue = itemsList[i].editTextValue
+                var etValue = itemsList[i].editTextValue
                 Log.i("List", "$nameBlock : $etValue")
+
                 when(nameBlock) {
-                    //"Объявление переменных" -> {}
+                    "Объявление переменных" -> {i += 1}
+
                     "Присваивание" -> {
                         val result = BlocksFuns(variablesMap).assingment(etValue)
                         Log.i("Result", "$result")
                         if (result.first != -1) {
+                            variablesMap[result.second] = result.first
                             Log.i("Assingment","Переменной ${result.second} присвоено значение ${result.first}")
-                            //Toast.makeText(applicationContext, "Переменной ${result.second} присвоено значение $result.first", Toast.LENGTH_SHORT).show()
+                        }
+                        i += 1
+                    }
+
+                    "Условие Начало" -> {
+                        etValue = etValue.replace("\\s".toRegex(), "")
+                        val newStr = etValue.replace("\\s".toRegex(), "").split(">", "<", "<=", ">=", "==", "!=")
+                        val leftPart = newStr[0]
+                        val rightPart = newStr[1]
+                        var delimiter = etValue.slice(leftPart.length..etValue.indexOf(rightPart[0]) - 1)
+
+                        var leftExp = RPN().rpnToAnswer(RPN().expressionToRPN(RPN().preparingExpression(leftPart)), variablesMap)
+                        val rightExp = RPN().rpnToAnswer(RPN().expressionToRPN(RPN().preparingExpression(rightPart)), variablesMap)
+
+                        var j = 0
+                        when (delimiter) {
+                            ">" -> {
+                                if (leftExp > rightExp) {
+                                    j = i + 1
+                                    while (itemsList[j].name != "Условие Конец" && j < itemsList.size) {
+                                        val nameBlock = itemsList[j].name
+                                        var etValue = itemsList[j].editTextValue
+                                        when (nameBlock) {
+                                            "Объявление переменных" -> {j += 1}
+                                            "Присваивание" -> {
+                                                val result = BlocksFuns(variablesMap).assingment(etValue)
+                                                if (result.first != -1) {
+                                                    variablesMap[result.second] = result.first
+                                                    Log.i("Assingment","Переменной ${result.second} присвоено значение ${result.first}")
+                                                } else {
+                                                    Toast.makeText(applicationContext, "Некорректное выражение!", Toast.LENGTH_SHORT).show()
+                                                }
+                                                j += 1
+                                            }
+                                            "Вывод переменных" -> {
+                                                outPut(BlocksFuns(variablesMap).output(etValue))
+                                                j += 1
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            "<" -> {
+                                if (leftExp < rightExp) {
+                                    j = i + 1
+                                    while (itemsList[j].name != "Условие Конец" && j < itemsList.size) {
+                                        val nameBlock = itemsList[j].name
+                                        var etValue = itemsList[j].editTextValue
+                                        when (nameBlock) {
+                                            "Объявление переменных" -> {j += 1}
+                                            "Присваивание" -> {
+                                                val result = BlocksFuns(variablesMap).assingment(etValue)
+                                                if (result.first != -1) {
+                                                    variablesMap[result.second] = result.first
+                                                    Log.i("Assingment","Переменной ${result.second} присвоено значение ${result.first}")
+                                                } else {
+                                                    Toast.makeText(applicationContext, "Некорректное выражение!", Toast.LENGTH_SHORT).show()
+                                                }
+                                                j += 1
+                                            }
+                                            "Вывод переменных" -> {
+                                                outPut(BlocksFuns(variablesMap).output(etValue))
+                                                j += 1
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            ">=" -> {
+                                if (leftExp >= rightExp) {
+                                    j = i + 1
+                                    while (itemsList[j].name != "Условие Конец" && j < itemsList.size) {
+                                        val nameBlock = itemsList[j].name
+                                        var etValue = itemsList[j].editTextValue
+                                        when (nameBlock) {
+                                            "Объявление переменных" -> {j += 1}
+                                            "Присваивание" -> {
+                                                val result = BlocksFuns(variablesMap).assingment(etValue)
+                                                if (result.first != -1) {
+                                                    variablesMap[result.second] = result.first
+                                                    Log.i("Assingment","Переменной ${result.second} присвоено значение ${result.first}")
+                                                } else {
+                                                    Toast.makeText(applicationContext, "Некорректное выражение!", Toast.LENGTH_SHORT).show()
+                                                }
+                                                j += 1
+                                            }
+                                            "Вывод переменных" -> {
+                                                outPut(BlocksFuns(variablesMap).output(etValue))
+                                                j += 1
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            "<=" -> {
+                                if (leftExp <= rightExp) {
+                                    j = i + 1
+                                    while (itemsList[j].name != "Условие Конец" && j < itemsList.size) {
+                                        val nameBlock = itemsList[j].name
+                                        var etValue = itemsList[j].editTextValue
+                                        when (nameBlock) {
+                                            "Объявление переменных" -> {j += 1}
+                                            "Присваивание" -> {
+                                                val result = BlocksFuns(variablesMap).assingment(etValue)
+                                                if (result.first != -1) {
+                                                    variablesMap[result.second] = result.first
+                                                    Log.i("Assingment","Переменной ${result.second} присвоено значение ${result.first}")
+                                                } else {
+                                                    Toast.makeText(applicationContext, "Некорректное выражение!", Toast.LENGTH_SHORT).show()
+                                                }
+                                                j += 1
+                                            }
+                                            "Вывод переменных" -> {
+                                                outPut(BlocksFuns(variablesMap).output(etValue))
+                                                j += 1
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            "!=" -> {
+                                if (leftExp != rightExp) {
+                                    j = i + 1
+                                    while (itemsList[j].name != "Условие Конец" && j < itemsList.size) {
+                                        val nameBlock = itemsList[j].name
+                                        var etValue = itemsList[j].editTextValue
+                                        when (nameBlock) {
+                                            "Объявление переменных" -> {j += 1}
+                                            "Присваивание" -> {
+                                                val result = BlocksFuns(variablesMap).assingment(etValue)
+                                                if (result.first != -1) {
+                                                    variablesMap[result.second] = result.first
+                                                    Log.i("Assingment","Переменной ${result.second} присвоено значение ${result.first}")
+                                                } else {
+                                                    Toast.makeText(applicationContext, "Некорректное выражение!", Toast.LENGTH_SHORT).show()
+                                                }
+                                                j += 1
+                                            }
+                                            "Вывод переменных" -> {
+                                                outPut(BlocksFuns(variablesMap).output(etValue))
+                                                j += 1
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            "==" -> {
+                                if (leftExp == rightExp) {
+                                    j = i + 1
+                                    while (itemsList[j].name != "Условие Конец" && j < itemsList.size) {
+                                        val nameBlock = itemsList[j].name
+                                        var etValue = itemsList[j].editTextValue
+                                        when (nameBlock) {
+                                            "Объявление переменных" -> {j += 1}
+                                            "Присваивание" -> {
+                                                val result = BlocksFuns(variablesMap).assingment(etValue)
+                                                if (result.first != -1) {
+                                                    variablesMap[result.second] = result.first
+                                                    Log.i("Assingment","Переменной ${result.second} присвоено значение ${result.first}")
+                                                } else {
+                                                    Toast.makeText(applicationContext, "Некорректное выражение!", Toast.LENGTH_SHORT).show()
+                                                }
+                                                j += 1
+                                            }
+                                            "Вывод переменных" -> {
+                                                outPut(BlocksFuns(variablesMap).output(etValue))
+                                                j += 1
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        i = j
+                    }
+
+                    "Условие Конец" -> {Log.i("i = ","$i"); i += 1} // конец условия
+
+                    "Пока Начало" -> {
+                        etValue = etValue.replace("\\s".toRegex(), "")
+                        val newStr = etValue.replace("\\s".toRegex(), "").split(">", "<", "<=", ">=", "==", "!=")
+                        val leftPart = newStr[0]
+                        val rightPart = newStr[1]
+
+                        var delimiter = etValue.slice(leftPart.length..etValue.indexOf(rightPart[0]) - 1)
+
+                        var leftExp = RPN().rpnToAnswer(RPN().expressionToRPN(RPN().preparingExpression(leftPart)), variablesMap)
+                        var rightExp = RPN().rpnToAnswer(RPN().expressionToRPN(RPN().preparingExpression(rightPart)), variablesMap)
+                        Log.i("Left Right","$leftExp $rightExp")
+                        var j = 0
+                        when (delimiter) {
+                            ">" -> {
+                                while (leftExp > rightExp) {
+                                    j = i + 1
+                                    Log.i("i = ", "$i")
+                                    Log.i("j = ", "$j")
+
+                                    while (itemsList[j].name != "Пока Конец" && j < itemsList.size) {
+                                        val nameBlock = itemsList[j].name
+                                        var etValue = itemsList[j].editTextValue
+                                        when (nameBlock) {
+                                            "Объявление переменных" -> {j += 1}
+                                            "Присваивание" -> {
+                                                val result = BlocksFuns(variablesMap).assingment(etValue)
+                                                if (result.first != -1) {
+                                                    variablesMap[result.second] = result.first
+                                                    Log.i("Assingment","Переменной ${result.second} присвоено значение ${result.first}")
+                                                } else {
+                                                    Toast.makeText(applicationContext, "Некорректное выражение!", Toast.LENGTH_SHORT).show()
+                                                }
+                                                j += 1
+                                            }
+                                            "Вывод переменных" -> {
+                                                outPut(BlocksFuns(variablesMap).output(etValue))
+                                                j += 1
+                                            }
+                                        }
+                                        leftExp = RPN().rpnToAnswer(RPN().expressionToRPN(RPN().preparingExpression(leftPart)), variablesMap)
+                                        rightExp = RPN().rpnToAnswer(RPN().expressionToRPN(RPN().preparingExpression(rightPart)), variablesMap)
+                                    }
+
+                                }
+                            }
+                            "<" -> {}
+                            ">=" -> {}
+                            "<=" -> {}
+                            "==" -> {}
+                            "!=" -> {}
                         }
                     }
 
-                    "Условие Начало" -> {} // старт условия
-                    "Условие Конец" -> {} // конец условия
-                    "Вывод переменных" -> {outPut(BlocksFuns(variablesMap).output(etValue))} // вывод, передаю строку,  которую надо вывести
+                    "Вывод переменных" -> {Log.i("i = ","$i"); outPut(BlocksFuns(variablesMap).output(etValue)); i += 1}
                 }
             }
         }
@@ -106,14 +329,35 @@ class MainActivity : AppCompatActivity() {
                 when (direction) {
                     //Delete Item
                     OnItemSwipeListener.SwipeDirection.RIGHT_TO_LEFT -> {
+                        Toast.makeText(applicationContext, "Блок удалён", Toast.LENGTH_SHORT).show()
 
-                        Toast.makeText(
-                            applicationContext,
-                            "Блок удален",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        //todo: add deleted code, удаляем блок присваивания для ранее объявленной переменной
-                       // if(nameBlock == "Объявление переменных")
+                        //todo: add deleted code
+                        val nameBlock = item.name
+                        val editText = item.editTextValue
+                        if (nameBlock == "Объявление переменных") {
+                            if (BlockModule(nameBlock, editText).isCorrect(editText)) { // одна переменная
+                                variablesMap.remove(editText, 0)
+                                Toast.makeText(applicationContext, "Если эта переменная используется далее и все сломается, мы ни при чем:)", Toast.LENGTH_SHORT).show()
+                            } else { // несколько переменных
+                                val newStr = editText.replace("\\s".toRegex(), "").split(",")
+                                for (name in newStr) {
+                                    variablesMap.remove(name, 0)
+                                }
+                                Toast.makeText(applicationContext, "Если эти переменные используются далее и все сломается, мы ни при чем:)", Toast.LENGTH_SHORT).show()
+                            }
+                        } else if (nameBlock == "Присваивание") {
+                            Log.i("AssDec","${variablesAddAssingment.toString()}")
+                            val nameVar = editText.substringBefore('=')
+                            if (nameVar in variablesAddAssingment) { // если переменную объявили и присвоили в блоке Присваивание
+                                variablesMap.remove(nameVar)
+                                variablesAddAssingment.remove(nameVar)
+
+                                Toast.makeText(applicationContext, "За дальнейшие ошибки ответственности не несем:)", Toast.LENGTH_SHORT).show()
+                            } else { // удаляем присваивание, переменная просто объявлена
+                                variablesMap[nameVar] = 0
+                                // Toast.makeText(applicationContext, "Значение $nameVar снова 0", Toast.LENGTH_SHORT).show()
+                            }
+                        }
                     }
                     //Archive Item
                     OnItemSwipeListener.SwipeDirection.LEFT_TO_RIGHT -> {
@@ -213,7 +457,7 @@ class MainActivity : AppCompatActivity() {
                                     "Блок успешно добавлен! Объявлены переменные: ${newVariables.joinToString(", ")}",
                                     Toast.LENGTH_LONG
                                 ).show()
-                            } else if(!itsOkay) {
+                            } else if (!itsOkay) {
                                 Toast.makeText(
                                     applicationContext,
                                     "Блок не может быть добавлен:(",
@@ -239,29 +483,39 @@ class MainActivity : AppCompatActivity() {
                         }
                     } else if(nameBlock == "Присваивание") {
                         var newBlock = BlockModule(nameBlock, editText)
-                        // корректно ли выражение
+
                         if (BlockModule(nameBlock, editText).isCorrectAssingment(editText)) {
-                            dragDropAdapter.updateItem(newBlock)
-                            if (editText.substringBefore('=') !in variablesMap.keys) {
-                                val result = BlocksFuns(variablesMap).assingment(editText)
-                                Log.i("Result", "$result")
-                                if (result.first != -1) {
-                                    Log.i("Assingment","Переменной ${result.second} присвоено значение ${result.first}")
-                                    variablesMap[result.second] = result.first
-                                }
+                            val result = BlocksFuns(variablesMap).assingment(editText)
+                            if (result.second !in variablesMap.keys) {
+                                variablesAddAssingment.add(result.second)
                             }
+                            dragDropAdapter.updateItem(newBlock)
 
-
+                            if (result.first != -1) {
+                                Log.i("Assingment","Переменной ${result.second} присвоено значение ${result.first}")
+                                variablesMap[result.second] = result.first
+                            }
                             Toast.makeText(applicationContext, "Блок успешно добавлен!", Toast.LENGTH_SHORT).show()
                         } else {
                             Toast.makeText(applicationContext, "Некорректное выражение!", Toast.LENGTH_SHORT).show()
                         }
                     } else if(nameBlock == "Условие Начало") {
-                        if(true) { // дописать
-
+                        var newBlock = BlockModule(nameBlock, editText)
+                        if (BlockModule(nameBlock, editText).isCorrectIf(editText)) {
+                            dragDropAdapter.updateItem(newBlock)
+                            Toast.makeText(
+                                applicationContext,
+                                "Блок успешно добавлен!",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         } else {
-                            Toast.makeText(applicationContext, "Некорректное выражение!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                applicationContext,
+                                "Некорректное выражение!",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
+
                     } else if(nameBlock == "Вывод переменных") {
                         var newBlock = BlockModule(nameBlock, editText)
 
@@ -316,8 +570,80 @@ class MainActivity : AppCompatActivity() {
                         } else {
                             Toast.makeText(applicationContext, "Некорректная строка", Toast.LENGTH_SHORT).show()
                         }
-                    } else {
+
+                    } else if(nameBlock == "Пока Начало") {
                         var newBlock = BlockModule(nameBlock, editText)
+                        if (BlockModule(nameBlock, editText).isCorrectIf(editText)) {
+                            dragDropAdapter.updateItem(newBlock)
+                            Toast.makeText(
+                                applicationContext,
+                                "Блок успешно добавлен!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            Toast.makeText(
+                                applicationContext,
+                                "Некорректное выражение!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }else if (nameBlock == "Имя и элементы массива") {
+
+                        var newBlock = BlockModule(nameBlock, editText)
+                        val listOfInputItems = editText.replace("\\s".toRegex(), "").split("=")
+                        var itsOkay = true
+
+                        if (listOfInputItems.size == 2) {
+                            val listOfVar = listOfInputItems[1].replace("\\s".toRegex(), "").split(",")
+                            if (newBlock.isCorrect(listOfInputItems[0]) && newBlock.isArraySequence(
+                                    listOfInputItems[1]
+                                )
+                            ) {
+                                if (listOfInputItems[0] in arraysMap.keys && listOfVar.size != arraysMap.getValue(listOfInputItems[0]).size) { //не совпал размер
+                                    Toast.makeText(
+                                        applicationContext,
+                                        "Размер массива изменить нельзя",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                    itsOkay = false
+                                }
+                                else  if (listOfInputItems[0] in variablesMap.keys) { //имя уже занято
+                                    Toast.makeText(
+                                        applicationContext,
+                                        "Имя уже занято",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                    itsOkay = false
+                                }
+                            } else { //некорретный ввод
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Некорректный ввод",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                itsOkay = false
+                            }
+                            if (itsOkay) {
+                                newBlock.arrayElement = listOfVar
+                                dragDropAdapter.updateItem(newBlock)
+                                arraysMap.put(listOfInputItems[0],listOfVar)
+
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Блок успешно добавлен!",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        } else{
+                            Toast.makeText(
+                                applicationContext,
+                                "Один из аргументов не указан",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+             else { // условие конец, пока конец
+                 var newBlock = BlockModule(nameBlock, editText)
                         dragDropAdapter.updateItem(newBlock)
 
                         Toast.makeText(
@@ -327,6 +653,7 @@ class MainActivity : AppCompatActivity() {
                         ).show()
                     }
                 }
+
                 setNegativeButton("Отмена") { dialog, which ->
                     Log.d("Main", "Negative button clicked")
                 }
