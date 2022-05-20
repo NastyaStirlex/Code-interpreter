@@ -337,7 +337,7 @@ class MainActivity : AppCompatActivity() {
                     var newBlock = BlockModule(nameBlock, editText)
 
                     if (newBlock.isCorrect(editText)) { // одна переменная
-                        if (editText !in variablesMap.keys || editText !in arraysMap.keys) {
+                        if (editText !in variablesMap.keys && editText !in arraysMap.keys) {
                             Toast.makeText(
                                 applicationContext,
                                 "Такой переменной нет!",
@@ -359,7 +359,7 @@ class MainActivity : AppCompatActivity() {
 
                         for (name in listOfVar) {
                             if (newBlock.isCorrect(name)) {
-                                if (name !in variablesMap.keys || name !in arraysMap.keys) {
+                                if (name !in variablesMap.keys && name !in arraysMap.keys) {
                                     notDeclaratedVar.add(name)
                                     itsOkay = false
                                 }
