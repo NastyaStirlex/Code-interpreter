@@ -8,8 +8,8 @@
         <item>Имя и элементы массива</item>
         <item>Иначе Начало</item>
         <item>Иначе Конец</item>
-        <item>Вывод переменных</item>
         <item>Пока Начало</item>
         <item>Пока Конец</item>
+        <item>Вывод переменных</item>
     </string-array>
 </resources>

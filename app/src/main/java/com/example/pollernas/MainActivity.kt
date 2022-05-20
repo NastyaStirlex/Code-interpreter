@@ -51,11 +51,13 @@ class MainActivity : AppCompatActivity() {
         buttonStart.setOnClickListener {
             itemsList = dragDropAdapter.getArray()
             var i = 0
+            var flagElse = false
 
-            while(i != itemsList.size) {
+            while(i < itemsList.size) {
                 val nameBlock = itemsList[i].name
                 var etValue = itemsList[i].editTextValue
                 Log.i("List", "$nameBlock : $etValue")
+
 
                 when(nameBlock) {
                     "Объявление переменных" -> {i += 1}
@@ -76,6 +78,7 @@ class MainActivity : AppCompatActivity() {
                         val leftPart = newStr[0]
                         val rightPart = newStr[1]
                         var delimiter = etValue.slice(leftPart.length..etValue.indexOf(rightPart[0]) - 1)
+
 
                         var leftExp = RPN().rpnToAnswer(RPN().expressionToRPN(RPN().preparingExpression(leftPart)), variablesMap)
                         val rightExp = RPN().rpnToAnswer(RPN().expressionToRPN(RPN().preparingExpression(rightPart)), variablesMap)
@@ -107,6 +110,10 @@ class MainActivity : AppCompatActivity() {
                                         }
                                     }
                                 }
+                                else while(itemsList[j].name != "Условие Конец"){
+                                    j += 1
+                                    flagElse = true
+                                }
                             }
 
                             "<" -> {
@@ -133,6 +140,10 @@ class MainActivity : AppCompatActivity() {
                                             }
                                         }
                                     }
+                                }
+                                else while(itemsList[j].name != "Условие Конец"){
+                                    j += 1
+                                    flagElse = true
                                 }
                             }
                             ">=" -> {
@@ -245,6 +256,37 @@ class MainActivity : AppCompatActivity() {
 
                     "Условие Конец" -> {Log.i("i = ","$i"); i += 1} // конец условия
 
+                    "Иначе Начало" -> {
+                        var j = 0
+                        if(flagElse == true){
+                                    j = i + 1
+                                    while (itemsList[j].name != "Иначе Конец" && j < itemsList.size) {
+                                        val nameBlock = itemsList[j].name
+                                        var etValue = itemsList[j].editTextValue
+                                        when (nameBlock) {
+                                            "Объявление переменных" -> {j += 1}
+                                            "Присваивание" -> {
+                                                val result = BlocksFuns(variablesMap).assingment(etValue)
+                                                if (result.first != -1) {
+                                                    variablesMap[result.second] = result.first
+                                                    Log.i("Assingment","Переменной ${result.second} присвоено значение ${result.first}")
+                                                } else {
+                                                    Toast.makeText(applicationContext, "Некорректное выражение!", Toast.LENGTH_SHORT).show()
+                                                }
+                                                j += 1
+                                            }
+                                            "Вывод переменных" -> {
+                                                outPut(BlocksFuns(variablesMap).output(etValue))
+                                                j += 1
+                                            }
+                                        }
+                                    }
+                                }
+                        i = j
+                    }
+
+                    "Иначе Конец" -> {Log.i("i = ","$i"); i += 1} // конец условия
+
                     "Пока Начало" -> {
                         etValue = etValue.replace("\\s".toRegex(), "")
                         val newStr = etValue.replace("\\s".toRegex(), "").split(">", "<", "<=", ">=", "==", "!=")
@@ -255,7 +297,6 @@ class MainActivity : AppCompatActivity() {
 
                         var leftExp = RPN().rpnToAnswer(RPN().expressionToRPN(RPN().preparingExpression(leftPart)), variablesMap)
                         var rightExp = RPN().rpnToAnswer(RPN().expressionToRPN(RPN().preparingExpression(rightPart)), variablesMap)
-                        Log.i("Left Right","$leftExp $rightExp")
                         var j = 0
                         when (delimiter) {
                             ">" -> {
@@ -284,19 +325,58 @@ class MainActivity : AppCompatActivity() {
                                                 j += 1
                                             }
                                         }
-                                        leftExp = RPN().rpnToAnswer(RPN().expressionToRPN(RPN().preparingExpression(leftPart)), variablesMap)
-                                        rightExp = RPN().rpnToAnswer(RPN().expressionToRPN(RPN().preparingExpression(rightPart)), variablesMap)
-                                    }
 
+                                    }
+                                    Log.i("A = ", "${variablesMap["A"]}")
+                                    leftExp = RPN().rpnToAnswer(RPN().expressionToRPN(RPN().preparingExpression(leftPart)), variablesMap)
+                                    Log.i("Left", "$leftExp")
+                                    rightExp = RPN().rpnToAnswer(RPN().expressionToRPN(RPN().preparingExpression(rightPart)), variablesMap)
+                                    Log.i("Right", "$rightExp")
                                 }
                             }
-                            "<" -> {}
+                            "<" -> {
+                                while (leftExp < rightExp) {
+                                    j = i + 1
+                                    Log.i("i = ", "$i")
+                                    Log.i("j = ", "$j")
+
+                                    while (itemsList[j].name != "Пока Конец" && j < itemsList.size) {
+                                        val nameBlock = itemsList[j].name
+                                        var etValue = itemsList[j].editTextValue
+                                        when (nameBlock) {
+                                            "Объявление переменных" -> {j += 1}
+                                            "Присваивание" -> {
+                                                val result = BlocksFuns(variablesMap).assingment(etValue)
+                                                if (result.first != -1) {
+                                                    variablesMap[result.second] = result.first
+                                                    Log.i("Assingment","Переменной ${result.second} присвоено значение ${result.first}")
+                                                } else {
+                                                    Toast.makeText(applicationContext, "Некорректное выражение!", Toast.LENGTH_SHORT).show()
+                                                }
+                                                j += 1
+                                            }
+                                            "Вывод переменных" -> {
+                                                outPut(BlocksFuns(variablesMap).output(etValue))
+                                                j += 1
+                                            }
+                                        }
+
+                                    }
+                                    Log.i("A = ", "${variablesMap["A"]}")
+                                    leftExp = RPN().rpnToAnswer(RPN().expressionToRPN(RPN().preparingExpression(leftPart)), variablesMap)
+                                    Log.i("Left", "$leftExp")
+                                    rightExp = RPN().rpnToAnswer(RPN().expressionToRPN(RPN().preparingExpression(rightPart)), variablesMap)
+                                    Log.i("Right", "$rightExp")
+                                }
+                            }
                             ">=" -> {}
                             "<=" -> {}
                             "==" -> {}
                             "!=" -> {}
                         }
+                        i = j
                     }
+                    "Пока Конец" -> {Log.i("i = ","$i"); i += 1} // конец цикла
 
                     "Вывод переменных" -> {Log.i("i = ","$i"); outPut(BlocksFuns(variablesMap).output(etValue)); i += 1}
                 }
@@ -367,6 +447,32 @@ class MainActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
                         //todo: add archived code here
+                        val nameBlock = item.name
+                        val editText = item.editTextValue
+                        if (nameBlock == "Объявление переменных") {
+                            if (BlockModule(nameBlock, editText).isCorrect(editText)) { // одна переменная
+                                variablesMap.remove(editText, 0)
+                                Toast.makeText(applicationContext, "Если эта переменная используется далее и все сломается, мы ни при чем:)", Toast.LENGTH_SHORT).show()
+                            } else { // несколько переменных
+                                val newStr = editText.replace("\\s".toRegex(), "").split(",")
+                                for (name in newStr) {
+                                    variablesMap.remove(name, 0)
+                                }
+                                Toast.makeText(applicationContext, "Если эти переменные используются далее и все сломается, мы ни при чем:)", Toast.LENGTH_SHORT).show()
+                            }
+                        } else if (nameBlock == "Присваивание") {
+                            Log.i("AssDec","${variablesAddAssingment.toString()}")
+                            val nameVar = editText.substringBefore('=')
+                            if (nameVar in variablesAddAssingment) { // если переменную объявили и присвоили в блоке Присваивание
+                                variablesMap.remove(nameVar)
+                                variablesAddAssingment.remove(nameVar)
+
+                                Toast.makeText(applicationContext, "За дальнейшие ошибки ответственности не несем:)", Toast.LENGTH_SHORT).show()
+                            } else { // удаляем присваивание, переменная просто объявлена
+                                variablesMap[nameVar] = 0
+                                // Toast.makeText(applicationContext, "Значение $nameVar снова 0", Toast.LENGTH_SHORT).show()
+                            }
+                        }
                     }
                     else -> return false
                 }

@@ -1,8 +1,5 @@
 package com.example.pollernas
 
-import android.widget.Toast
-import com.example.pollernas.MainActivity
-
 class BlockModule(var name: String, var editTextValue: String){
 
     lateinit var arrayElement: List<String>
@@ -18,7 +15,7 @@ class BlockModule(var name: String, var editTextValue: String){
     }
 
     fun isCorrectAssingment(str: String): Boolean {
-        val result = Regex("[А-Яа-яA-Za-z_][А-Яа-яA-Za-z_0-9]*\\s*=\\s*([А-Яа-яA-Za-z_][А-Яа-яA-Za-z_0-9]*|[0-9]+)\\s*(?:\\s*[+=*/]\\s*([А-Яа-яA-Za-z_][А-Яа-яA-Za-z_0-9]*|\\d+)\\s*)*\\s*").matchEntire(str)
+        val result = Regex("[А-Яа-яA-Za-z_][А-Яа-яA-Za-z_0-9]*\\s*=\\s*([А-Яа-яA-Za-z_][А-Яа-яA-Za-z_0-9]*|[0-9]+)\\s*(?:\\s*[+\\-*/]\\s*([А-Яа-яA-Za-z_][А-Яа-яA-Za-z_0-9]*|\\d+)\\s*)*\\s*").matchEntire(str)
         return result != null
     }
     fun isArraySequence(str: String): Boolean {
@@ -26,7 +23,7 @@ class BlockModule(var name: String, var editTextValue: String){
         return result != null
     }
     fun isCorrectIf(str: String) : Boolean {
-        val result = Regex("[А-Яа-яA-Za-z_][А-Яа-яA-Za-z_0-9]*(?:\\s*[+\\-*\\/%]\\s*([А-Яа-яA-Za-z_][А-Яа-яA-Za-z_0-9]*|\\d+)\\s*)*\\s*(>|<|<=|>=|!=|==)\\s*([А-Яа-яA-Za-z_][А-Яа-яA-Za-z_0-9]*|[1-9]\\d*|0)\\s*").matchEntire(str)
+        val result = Regex("[А-Яа-яA-Za-z_][А-Яа-яA-Za-z_0-9]*(?:\\s*[+\\-*/%]\\s*([А-Яа-яA-Za-z_][А-Яа-яA-Za-z_0-9]*|\\d+)\\s*)*\\s*(>|<|<=|>=|!=|==)\\s*([А-Яа-яA-Za-z_][А-Яа-яA-Za-z_0-9]*|[1-9]\\d*|0)\\s*").matchEntire(str)
         return result != null
     }
 }
