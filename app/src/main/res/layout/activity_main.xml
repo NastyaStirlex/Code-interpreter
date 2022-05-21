@@ -6,11 +6,33 @@
     android:layout_height="match_parent"
     android:background="@drawable/menu">
 
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp"
+        tools:visibility="visible">
+
+        <com.ernestoyaquello.dragdropswiperecyclerview.DragDropSwipeRecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="608dp"
+            app:behind_swiped_item_bg_color="#E53935"
+            app:behind_swiped_item_bg_color_secondary="#1E88E5"
+            app:behind_swiped_item_icon="@drawable/ic_baseline_delete_24"
+            app:behind_swiped_item_icon_margin="16dp"
+            app:behind_swiped_item_icon_secondary="@drawable/ic_baseline_archive_24"
+            app:item_layout="@layout/list_item_layout"
+            tools:ignore="MissingClass" />
+
+    </FrameLayout>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/burger"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="27dp"
+        android:layout_marginEnd="7dp"
         android:layout_marginBottom="10dp"
         android:backgroundTint="@color/burger"
         android:clickable="true"
@@ -40,28 +62,6 @@
         app:layout_constraintEnd_toStartOf="@+id/elseEnd"
         app:layout_constraintTop_toTopOf="@+id/elseEnd"
         tools:visibility="visible" />
-
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"
-        tools:visibility="gone">
-
-        <com.ernestoyaquello.dragdropswiperecyclerview.DragDropSwipeRecyclerView
-            android:id="@+id/list"
-            android:layout_width="match_parent"
-            android:layout_height="658dp"
-            app:behind_swiped_item_bg_color="#E53935"
-            app:behind_swiped_item_bg_color_secondary="#1E88E5"
-            app:behind_swiped_item_icon="@drawable/ic_baseline_delete_24"
-            app:behind_swiped_item_icon_margin="16dp"
-            app:behind_swiped_item_icon_secondary="@drawable/ic_baseline_archive_24"
-            app:item_layout="@layout/list_item_layout"
-            tools:ignore="MissingClass" />
-
-    </FrameLayout>
 
 
     <Button
