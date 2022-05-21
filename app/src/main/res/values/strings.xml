@@ -1,9 +1,19 @@
 <resources>
+
     <string name="app_name">CodeBlock</string>
     <string name="hintForInput">Введи код</string>
-    <string name="letterForInput">a</string>
     <string name="var">var</string>
     <string name="input">input</string>
     <string name="output">output</string>
+    <string name="elsee">else</string>
+    <string name="arr">arr</string>
+    <string name="iff">if</string>
+    <string name="assing">:=</string>
+    <string name="let_s_start"><![CDATA[Let\'s start ---->]]></string>
+    <string name="else_end">else end</string>
+    <string name="whilee">while</string>
+    <string name="run">RUN</string>
+    <string name="while_end">while end</string>
+    <string name="if_end">if end</string>
 
 </resources>
