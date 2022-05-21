@@ -2,7 +2,6 @@ package com.example.pollernas
 
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -438,14 +437,8 @@ class MainActivity : AppCompatActivity() {
 
                     if (listOfInputItems.size == 2) {
                         val listOfVar = listOfInputItems[1].replace("\\s".toRegex(), "").split(",")
-                        if (newBlock.isCorrect(listOfInputItems[0]) && newBlock.isArraySequence(
-                                listOfInputItems[1]
-                            )
-                        ) {
-                            if (listOfInputItems[0] in arraysMap.keys && listOfVar.size != arraysMap.getValue(
-                                    listOfInputItems[0]
-                                ).size
-                            ) { //не совпал размер
+                        if (newBlock.isCorrect(listOfInputItems[0]) && newBlock.isArraySequence(listOfInputItems[1])) {
+                            if (listOfInputItems[0] in arraysMap.keys && listOfVar.size != arraysMap.getValue(listOfInputItems[0]).size) { //не совпал размер
                                 Toast.makeText(
                                     applicationContext,
                                     "Размер массива изменить нельзя",
